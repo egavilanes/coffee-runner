@@ -202,7 +202,6 @@ class Play extends Phaser.Scene {
         this.player.stop();
         this.gameOver = true;
         this.player.disableBody();
-        //console.log('game over');
         tries += 1;
         let highScoreColor = '#000';
             

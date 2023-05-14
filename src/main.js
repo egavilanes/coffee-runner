@@ -1,3 +1,12 @@
+/* Name: Emily Gavilanes
+   Game Title: Coffee Run
+   Time spent: 25 hrs
+   Creative/Technical Tilt:
+    I tried to add some randomness when it came to occurring obastacles
+    for different parts of the cafe floor and did this with the help of helper functions.
+    I tried to implement different types of jazz music to fit the theme of a cafe 
+    as well to support the ambience of the game.
+*/ 
 let cursors;
 let keyUP, keyJ, keySPACE, keyW, keyA, keyS, keyD, keyR;
 
