@@ -17,8 +17,8 @@ class Play extends Phaser.Scene {
         this.load.image('trash', 'assets/chair.png');
         this.load.image('sky', 'assets/cafe-wall.png');
 
-        this.load.audio('oof', 'assets/oof.mp3');
-        this.load.audio('down', 'assets/down.mp3');
+        this.load.audio('oof', 'assets/clap.mp3');
+        this.load.audio('down', 'assets/night-piano.mp3');
         this.load.audio('theme A', 'assets/bebop-for-joey-127677.mp3');
     }
 
