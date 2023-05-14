@@ -5,7 +5,7 @@ class Menu extends Phaser.Scene {
 
     preload() {
         this.load.image('graphic', 'assets/menu.png');
-        this.load.audio('menu', './assets/menu.wav');
+        this.load.audio('menu', './assets/the-jazz-piano-143632.mp3');
     }
 
     create() {

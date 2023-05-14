@@ -6,7 +6,6 @@ class Play extends Phaser.Scene {
     }
 
     preload() {
-        // art by Nic
         this.load.image('field', 'assets/cafe.png');
         this.load.image('gg', 'assets/spill-over.png');
         this.load.spritesheet('runner', 'assets/barista_run.png', {
@@ -18,11 +17,9 @@ class Play extends Phaser.Scene {
         this.load.image('trash', 'assets/chair.png');
         this.load.image('sky', 'assets/cafe-wall.png');
 
-        // sounds by Chris
-        this.load.audio('startup', 'assets/up.mp3');
         this.load.audio('oof', 'assets/oof.mp3');
         this.load.audio('down', 'assets/down.mp3');
-        this.load.audio('theme A', 'assets/A Theme.mp3');
+        this.load.audio('theme A', 'assets/bebop-for-joey-127677.mp3');
     }
 
     create() {
@@ -101,7 +98,6 @@ class Play extends Phaser.Scene {
         this.bgm.setLoop(true);
 
         this.player.anims.play('run');
-        this.sound.play('startup');
         this.time.delayedCall(1000, () => {
             this.bgm.play();})
     }
