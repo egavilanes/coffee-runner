@@ -6,16 +6,16 @@ class Play extends Phaser.Scene {
     }
 
     preload() {
-        this.load.image('field', 'assets/cafe.png');
+        this.load.image('cafe', 'assets/cafe.png');
         this.load.image('gg', 'assets/spill-over.png');
         this.load.spritesheet('runner', 'assets/barista_run.png', {
             frameWidth: 49,
             frameHeight: 77,
         });
-        this.load.image('defender', 'assets/manager.png');
-        this.load.image('fans', 'assets/customers.png');
-        this.load.image('trash', 'assets/chair.png');
-        this.load.image('sky', 'assets/cafe-wall.png');
+        this.load.image('manager', 'assets/manager.png');
+        this.load.image('customers', 'assets/customers.png');
+        this.load.image('chair', 'assets/chair.png');
+        this.load.image('wall', 'assets/cafe-wall.png');
 
         this.load.audio('oof', 'assets/clap.mp3');
         this.load.audio('down', 'assets/night-piano.mp3');
@@ -23,9 +23,9 @@ class Play extends Phaser.Scene {
     }
 
     create() {
-        this.scrollingField = this.add.tileSprite(0, 0, 0, 0, 'field')
+        this.scrollingField = this.add.tileSprite(0, 0, 0, 0, 'cafe')
             .setOrigin(0, 0);
-        this.sky = this.add.tileSprite(0,0,0,0, 'sky').setOrigin(0,0);
+        this.sky = this.add.tileSprite(0,0,0,0, 'wall').setOrigin(0,0);
         this.PLAYER_VELOCITY = game.config.height / 2
         this.scrollSpeed = game.config.height / 2;
 
@@ -71,7 +71,6 @@ class Play extends Phaser.Scene {
         let scoreConfig = {
             fontFamily: 'italic',
             fontSize: '56px',
-            //backgroundColor: '#013220',
             strokeThickness: 4,
             stroke: '013220',
             color: '#FFFFFF',
@@ -87,9 +86,9 @@ class Play extends Phaser.Scene {
 
 
         // scale difficulty through multiple waves based on distance traveled
-        this.obstacleSpeed = 300;    // defenders start at 300
+        this.obstacleSpeed = 300;    
         this.obstacleSpeedMultiplier = 1;
-        this.nextWaveThreshold = 50; // starting at 50 yards
+        this.nextWaveThreshold = 50; 
         this.obstacleSpawnDelay = 4000; // initial time between obstacles appearing in ms
         this.obstacleSpawnTimer = this.obstacleSpawnDelay;
 
@@ -109,9 +108,9 @@ class Play extends Phaser.Scene {
         if (!this.gameOver) {
             this.player.setVelocity(0);
 
-            // starting speed is 10yards/s, or 1 screen length
+            // starting speed is 10feet/s, or 1 screen length
             this.scrollingField.tilePositionY -= this.scrollSpeed * (delta / 1000); // normalize scroll speed to pixels per second
-            this.centerDistance += (this.scrollSpeed * (delta / 1000) / (game.config.height / 10)); // total distance the screen has scrolled so far, in yards
+            this.centerDistance += (this.scrollSpeed * (delta / 1000) / (game.config.height / 10)); // total distance the screen has scrolled so far, in feet
             //console.log(this.centerDistance);
 
             // increasing challenge
@@ -132,13 +131,13 @@ class Play extends Phaser.Scene {
                 this.obstacleSpawnTimer = this.obstacleSpawnDelay;
                 switch(randomInt(3)){
                     case 0:
-                        this.spawnDefender(this.obstacleSpeedMultiplier);
+                        this.spawnManager(this.obstacleSpeedMultiplier);
                         break;
                     case 1:
-                        this.spawnFans(this.obstacleSpeedMultiplier);
+                        this.spawnCustomers(this.obstacleSpeedMultiplier);
                         break;
                     case 2:
-                        this.spawnTrash();
+                        this.spawnChair();
                         break;
                     default:
                         break;
@@ -176,25 +175,25 @@ class Play extends Phaser.Scene {
 
 
     // put a defender on the screen with given horizontal speed coming from a random side of the screen
-    spawnDefender(multiplier) {
+    spawnManager(multiplier) {
         let [startingX, direction] = randomSide();
         let startingY = randomRange(- (game.config.height / 5), game.config.height / 5);
         //second arg must be true to add object to display list i guess
-        this.obstacles.add(new Defender(this, startingX, startingY, 'defender', 0, this.obstacleSpeed * direction, multiplier), true); 
+        this.obstacles.add(new Manager(this, startingX, startingY, 'manager', 0, this.obstacleSpeed * direction, multiplier), true); 
     }
 
-    spawnFans(multiplier) {
+    spawnCustomers(multiplier) {
         let [startingX, direction] = randomSide();
         let startingY = randomRange((game.config.height / 5), game.config.height * (4 / 5));
-        this.obstacles.add(new Fans(this, startingX, startingY, 'fans', 0, this.obstacleSpeed * direction, multiplier), true);
+        this.obstacles.add(new Customers(this, startingX, startingY, 'customers', 0, this.obstacleSpeed * direction, multiplier), true);
     }
 
-    spawnTrash() {
+    spawnChair() {
         // trash will spawn at the top near the player's x position
         let startingX = randomRange(this.player.x - (game.config.width / 5), this.player.x + (game.config.width / 5));
         // limit x position to within game bounds
         startingX = Math.min(Math.max(startingX, game.config.width * (1 / 15)), game.config.width - game.config.width * (1 / 15));
-        this.obstacles.add(new Trash(this, startingX, 75, 'trash', 0), true);
+        this.obstacles.add(new Chair(this, startingX, 75, 'chair', 0), true);
     }
 
     setGameOver() {
@@ -205,11 +204,11 @@ class Play extends Phaser.Scene {
         this.player.disableBody();
         //console.log('game over');
         tries += 1;
-        let highScoreColor = 'Black';
+        let highScoreColor = '#000';
             
             if (this.p1Score > highScore) {
                 highScore = this.p1Score;
-                highScoreColor = 'White';
+                highScoreColor = '#000';
             }
 
         // delay this part just a bit to make it look like the sprites actually collide
@@ -224,7 +223,7 @@ class Play extends Phaser.Scene {
             let gameoverConfig = {
                 fontFamily: 'italic',
                 fontSize: '100px',
-                color: '#FFFFFF',
+                color: '#000',
                 align: 'right',
                 padding: {
                     top: 5,
@@ -249,7 +248,7 @@ class Play extends Phaser.Scene {
                 .setOrigin(0.5)
                 .setDepth(1);
             
-            gameoverConfig.color = '#FFFFFF'
+            gameoverConfig.color = '#000'
             this.add.text(game.config.width / 2, game.config.height / 2 + 100, 'TOTAL RUNS: ' + tries, gameoverConfig)   
                 .setOrigin(0.5)
                 .setDepth(1);

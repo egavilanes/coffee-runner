@@ -1,4 +1,4 @@
-class Defender extends Phaser.GameObjects.Sprite {
+class Manager extends Phaser.GameObjects.Sprite {
     constructor(scene, x, y, texture, frame, speed, multiplier) {
         super(scene, x, y, texture, frame);
         this.worldScene = scene;
@@ -18,7 +18,7 @@ class Defender extends Phaser.GameObjects.Sprite {
     }
 }
 
-class Fans extends Phaser.GameObjects.Sprite {
+class Customers extends Phaser.GameObjects.Sprite {
     constructor(scene, x, y, texture, frame, speed, multiplier) {
         super(scene, x, y, texture, frame);
         this.worldScene = scene;
@@ -37,7 +37,7 @@ class Fans extends Phaser.GameObjects.Sprite {
     }
 }
 
-class Trash extends Phaser.GameObjects.Sprite {
+class Chair extends Phaser.GameObjects.Sprite {
     constructor(scene, x, y, texture, frame) {
         super(scene, x, y, texture, frame);
         this.worldScene = scene;
